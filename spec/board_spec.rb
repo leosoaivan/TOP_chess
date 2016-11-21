@@ -15,4 +15,10 @@ describe Board do
       expect(board.gameboard[7].length).to eql 8
     end
   end
+  
+  describe '#move_piece' do
+    context 'when a start and end position' do
+      it 'shuld move the piece to the end position'
+    end
+  end
 end
