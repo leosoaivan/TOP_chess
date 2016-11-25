@@ -1,11 +1,5 @@
-class InvalidRowError < StandardError
-end
-
-class InvalidColumnError < StandardError
-end
-
-class InvalidSquareError < StandardError
-end
+require_relative 'errors'
+include Errors
 
 class Board
   attr_accessor :data
@@ -32,5 +26,4 @@ class Board
     raise InvalidSquareError unless data[row] && data[column]
     data[row][column]
   end
-
 end
