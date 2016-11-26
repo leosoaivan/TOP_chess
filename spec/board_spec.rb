@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Board do
   subject(:board) { Board.new }
+  let(:piece) { double 'Piece' }
   
   it { expect(board).to be_instance_of Board }
   
@@ -44,6 +45,15 @@ describe Board do
       it 'raises an InvalidSquareError' do
         expect { board.square(1,8) }.to raise_error InvalidSquareError
       end
+    end
+  end
+  
+  describe '#move_piece' do
+    it 'moves the piece from the start position to the end position' do
+      board.data[1][2] = piece
+      board.move_piece([1,2],[1,3])
+      expect(board.data[1][3]).to eql piece
+      expect(board.data[1][2]).to be_nil
     end
   end
 end

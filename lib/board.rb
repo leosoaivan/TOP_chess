@@ -26,4 +26,23 @@ class Board
     raise InvalidSquareError unless data[row] && data[column]
     data[row][column]
   end
+  
+  def move_piece(start_position, end_position)
+    place_piece(get_piece(start_position), end_position)
+    set_start_square_to_nil(start_position)
+  end
+  
+  private
+  
+    def get_piece(position)
+      square(position[0], position[1])
+    end
+  
+    def place_piece(piece, position)
+      data[position[0]][position[1]] = piece
+    end
+    
+    def set_start_square_to_nil(position)
+      data[position[0]][position[1]] = nil
+    end
 end
