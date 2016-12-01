@@ -13,6 +13,13 @@ describe Game do
     end
   end
   
+  describe '#split_player_input' do
+    
+    it 'converts an input into an array' do
+      expect(game.split_player_input("A1B2")).to be_kind_of Array
+    end
+  end
+  
   describe '#change_player' do
     context 'on the first turn' do
       it 'player1 should be the current player' do

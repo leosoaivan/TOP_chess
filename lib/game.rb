@@ -7,6 +7,10 @@ class Game
     @current_player = set_player_to_go_first
   end
   
+  def split_player_input(input)
+    [input[0,2], input[2,2]]
+  end
+  
   def change_player
     @current_player = @current_player == @player1 ? @player2 : @player1
   end
