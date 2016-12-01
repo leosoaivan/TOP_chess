@@ -18,6 +18,14 @@ describe Game do
     it 'converts an input into an array' do
       expect(game.split_player_input("A1B2")).to be_kind_of Array
     end
+    
+    it 'returns an array of two elements'
+    
+    it 'each element is two characters long'
+  end
+  
+  describe '#parse_input' do
+    it 'parse the input'
   end
   
   describe '#change_player' do
