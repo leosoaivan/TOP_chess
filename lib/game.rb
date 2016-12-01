@@ -19,5 +19,5 @@ class Game
     def set_player_to_go_first
       @player1.colour == :white ? @player1 : @player2
     end
-    
+    "Hello"
 end
