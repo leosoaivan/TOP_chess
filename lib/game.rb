@@ -7,8 +7,17 @@ class Game
     @current_player = set_player_to_go_first
   end
   
+  def valid_input?(input)
+    /([a-h][1-8]){2}/ =~ input.downcase  \
+                        && input.length == 4 ? true : false
+  end
+
   def split_player_input(input)
     [input[0,2], input[2,2]]
+  end
+  
+  def parse_input(input)
+    input.gsub(/\s+/, "")
   end
   
   def change_player
@@ -19,5 +28,5 @@ class Game
     def set_player_to_go_first
       @player1.colour == :white ? @player1 : @player2
     end
-    "Hello"
+
 end
