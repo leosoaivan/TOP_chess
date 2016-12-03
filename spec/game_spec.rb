@@ -96,4 +96,9 @@ describe Game do
     end
   end
   
+  describe '#square_occupied?' do
+    context 'when the selected square contains a piece' do
+      it 'returns true'
+    end
+  end
 end
