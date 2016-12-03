@@ -1,4 +1,5 @@
 class CoordinateConverter
+  attr_accessor :coordinates
   
   BOARD_MAP = {
     "a" => 0,

@@ -47,7 +47,7 @@ describe Game do
   
   describe '#split_player_input' do
     
-    input = "A1 to B2"
+    let(:input) { "A1 to B2" }
     
     it 'converts an input into an array' do
       expect(game.split_player_input(input)).to be_kind_of Array
