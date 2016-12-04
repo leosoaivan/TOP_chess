@@ -9,7 +9,18 @@ class Board
   end
   
   def to_s
-    @data.map { |row| row.map { |e| e || " " }.join("|") }.join("\n")
+    string = ""
+    count = 8
+    data.each do |row|
+      string += count.to_s
+      string += "|"
+      string += row.map { |e| e || " " }.join("|")
+      string += "|"
+      string += "\n"
+      count -= 1
+    end
+    string += "  A B C D E F G H"
+    string
   end
   
   def length
