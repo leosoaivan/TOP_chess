@@ -8,6 +8,10 @@ class Board
     @data = Array.new(8) { Array.new(8) }
   end
   
+  def to_s
+    @data.map { |row| row.map { |e| e || " " }.join("|") }.join("\n")
+  end
+  
   def length
     data.length
   end
