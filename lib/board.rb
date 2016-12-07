@@ -9,18 +9,15 @@ class Board
   end
   
   def to_s
-    string = ""
-    count = 8
-    data.each do |row|
-      string += count.to_s
-      string += "|"
-      string += row.map { |e| e || " " }.join("|")
-      string += "|"
-      string += "\n"
-      count -= 1
+    puts "    a   b   c   d   e   f   g   h "
+    puts "  +---+---+---+---+---+---+---+---+"
+    8.times do |x|
+      print "#{ (x - 8).abs } | "
+      @data[x].each { |elem| print " #{elem} | " }
+      puts " #{ (x - 8).abs } \n"
+      puts "  +---+---+---+---+---+---+---+---+"
     end
-    string += "  A B C D E F G H"
-    string
+    puts "    a   b   c   d   e   f   g   h \n\n"
   end
   
   def length
@@ -45,6 +42,9 @@ class Board
   def move_piece(start_position, end_position)
     place_piece(get_piece(start_position), end_position)
     set_start_square_to_nil(start_position)
+  end
+  
+  def add_pieces
   end
   
   private
