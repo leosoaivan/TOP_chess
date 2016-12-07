@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe Game do
-  subject(:game) { Game.new(player1, player2) }
+  subject(:game) { Game.new(board, player1, player2) }
+  let(:board) { double 'Board' }
   let(:player1) { double 'Player1', colour: :white }
   let(:player2) { double 'Player2', colour: :black }
   
@@ -77,9 +78,10 @@ describe Game do
     end
   end
   
-  describe '#square_occupied?' do
-    context 'when the selected square contains a piece' do
-      it 'returns true'
+  describe '#setup_board' do
+    it 'should send the pieces to the board' do
+      expect(board).to receive(:add_pieces)
+      game.setup_board
     end
   end
 end
