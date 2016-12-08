@@ -1,14 +1,9 @@
-class King
-  
-  attr_reader :colour, :symbol
+class King < Piece
+  attr_reader :symbol
   
   def initialize(colour)
-    @colour = colour
+    super(colour)
     @symbol = set_symbol
-  end
-  
-  def to_s
-    self.symbol.encode('utf-8')
   end
   
   private

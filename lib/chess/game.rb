@@ -33,7 +33,7 @@ class Game
     @board = board
     @player1 = player1
     @player2 = player2
-    @current_player = set_player_to_go_first
+    #@current_player = set_player_to_go_first
     @current_move = nil
   end
   

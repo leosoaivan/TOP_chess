@@ -1,13 +1,9 @@
-class Bishop
-  attr_reader :colour, :symbol
+class Bishop < Piece
+  attr_reader :symbol
   
   def initialize(colour)
-    @colour = colour
+    super(colour)
     @symbol = set_symbol
-  end
-  
-  def to_s
-    self.symbol.encode('utf-8')
   end
   
   private
