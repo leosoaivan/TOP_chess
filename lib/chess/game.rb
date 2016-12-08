@@ -2,33 +2,6 @@ class Game
   attr_accessor :current_move, :board
   attr_reader :current_player, :player1, :player2
   
-  PIECES = {
-    Pawn: {
-      white: [[6,0],[6,1],[6,2],[6,3],[6,4],[6,5],[6,6],[6,7]],
-      black: [[1,0],[1,1],[1,2],[1,3],[1,4],[1,5],[1,6],[1,7]]
-    },
-    Rook: {
-      white: [[7,0],[7,7]],
-      black: [[0,0],[0,7]]
-    },
-    Knight: {
-      white: [[7,1],[7,6]],
-      black: [[0,1],[0,6]]
-    },
-    Bishop: {
-      white: [[7,2],[7,5]],
-      black: [[0,2],[0,5]]
-    },
-    King: {
-      white: [[7,3]],
-      black: [[0,3]]
-    },
-    Queen: {
-      white: [[7,4]],
-      black: [[0,4]]
-    }
-  }
-  
   def initialize(board, player1, player2)
     @board = board
     @player1 = player1
@@ -69,7 +42,7 @@ class Game
     end
     
     def piece_hash
-      PIECES.inject({}) do |hash, (piece_name, colour_hash) |
+      Pieces.to_hash.inject({}) do |hash, (piece_name, colour_hash) |
         hash.merge(PieceCreator.new(piece_name, colour_hash).create)
       end
     end
