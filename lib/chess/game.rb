@@ -68,20 +68,10 @@ class Game
       input.gsub(/\s+/, "")
     end
     
-    def create_piece(piece, colour)
-      Kernel.const_get(piece).new(colour.to_sym)
-    end
-    
     def piece_hash
-      arr = {}
-      PIECES.each_pair do |piece_name, colour_hash|
-        colour_hash.each_pair do |colour, position_array|
-          position_array.each do |position|
-            arr[position] = create_piece(piece_name, colour)
-          end
-        end
+      PIECES.inject({}) do |hash, (piece_name, colour_hash) |
+        hash.merge(PieceCreator.new(piece_name, colour_hash).create)
       end
-      arr
     end
 
 end
