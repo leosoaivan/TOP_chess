@@ -80,7 +80,7 @@ describe Game do
   
   describe '#setup_board' do
     it 'should send the pieces to the board' do
-      expect(board).to receive(:add_pieces)
+      expect(board).to receive(:add_pieces).exactly(32).times
       game.setup_board
     end
   end

@@ -56,4 +56,11 @@ describe Board do
       expect(board.data[1][2]).to be_nil
     end
   end
+  
+  describe '#add_piece' do
+    it 'adds the piece to the co_ordinates provided' do
+      board.add_piece(piece, [6,0])
+      expect(board.data[6][0]).to eql piece
+    end
+  end
 end

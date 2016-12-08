@@ -12,8 +12,14 @@ class Board
     puts "    a   b   c   d   e   f   g   h "
     puts "  +---+---+---+---+---+---+---+---+"
     8.times do |x|
-      print "#{ (x - 8).abs } | "
-      @data[x].each { |elem| print " #{elem} | " }
+      print "#{ (x - 8).abs } |"
+      @data[x].each do |elem|
+        if elem
+          print " #{elem}|"
+        else
+          print "   |"
+        end
+      end
       puts " #{ (x - 8).abs } \n"
       puts "  +---+---+---+---+---+---+---+---+"
     end
@@ -44,7 +50,8 @@ class Board
     set_start_square_to_nil(start_position)
   end
   
-  def add_pieces
+  def add_piece(piece, position)
+    data[position[0]][position[1]] = piece
   end
   
   private
