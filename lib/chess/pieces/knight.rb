@@ -4,6 +4,10 @@ class Knight < Piece
   def initialize(colour)
     super(colour)
     @symbol = set_symbol
+    @move_set = [
+      [-2, 1], [-2, -1], [-1, 2], [-1, -2],
+      [1, -2], [1, 2], [2, 1], [2, -1]
+    ]
   end
   
   private
