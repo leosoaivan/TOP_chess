@@ -3,18 +3,23 @@ tested but now it's private so really shouldn't be tested. Might
 be better to just test that current player is set to the player
 that is white before any moves have been made.
 
-We now have the input parser ready in order to be able to
-get the co-ordinates from the board. We now need a way to be
-able to use those co_ordinates to check the move is legal.
+Given that the move does not leave the players own king in check
+and given that the destination is a valid square on the board
+and given that the destination does not have a piece of the same colour
+and given that there is no blocking piece on the path
+Then move the piece to the destination square
 
-Process for making a move
-1) Check the square selected contains a piece
-2) Check the move is legal within the parameters of
-the movements the piece can make
-3) Make sure the path isn't blocked by another piece
-4) Check the move doesn't leave the player in check
-
-For the movement the piece can make who should know?
-The board shouldn't know...
-So is it the Game that should know if a piece can move
-forwards or should the piece itself hold that knowledge?
+Moving a piece:
+- Game asks for player input
+- Game validates, parses, and splits input in a set of Coordinates.
+- Game ensures the Coordinates are valid:
+    * Game ensures the start coordinate contains one of player's pieces
+    * Game ensures the end coordinate DOES NOT contain player's pieces
+    * Game ensures the end coordinate is within player's piece's moveset
+    * Game ensures the path is not blocked
+    * Game ensures that player is not left in check
+- Game updates board with player's move
+- Game checks if opponent is checked
+- Game displays the board
+- Game repeats
+- Game profits

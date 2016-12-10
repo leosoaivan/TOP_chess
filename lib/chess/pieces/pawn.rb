@@ -4,6 +4,7 @@ class Pawn < Piece
   def initialize(colour)
     super(colour)
     @symbol = set_symbol
+    @move_set = []
   end
   
   private

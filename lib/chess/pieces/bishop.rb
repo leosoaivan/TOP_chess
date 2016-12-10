@@ -4,6 +4,7 @@ class Bishop < Piece
   def initialize(colour)
     super(colour)
     @symbol = set_symbol
+    @move_set = [[-1, -1], [-1, 1], [1, 1], [1, -1]]
   end
   
   private

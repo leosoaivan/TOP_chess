@@ -84,4 +84,15 @@ describe Game do
       game.setup_board
     end
   end
+  
+  describe '#legal_move?' do
+    context 'when moving a piece' do
+      context 'if it leaves the players King in check' do
+        it 'should raise an IllegalMoveException' do
+          
+        end
+      end
+    end
+  end
+  
 end
