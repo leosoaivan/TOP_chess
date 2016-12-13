@@ -1,7 +1,6 @@
 require_relative 'chess/board'
 require_relative 'chess/game'
 require_relative 'chess/coordinate_converter'
-require_relative 'chess/errors'
 require_relative 'chess/piece_creator'
 require_relative 'chess/pieces'
 require_relative 'chess/pieces/piece'

@@ -16,7 +16,7 @@ class CoordinateConverter
     ary_input.map! do |elem|
       elem[0] = BOARD_MAP["#{elem[0]}"]
       elem[1] = (elem[1].to_i - 8).abs
-      elem = [elem[1], elem[0]]
+      [elem[1], elem[0]]
     end
   end
 end

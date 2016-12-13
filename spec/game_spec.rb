@@ -8,70 +8,15 @@ describe Game do
   
   it { expect(subject).to be_instance_of Game }
   
-  describe '#set_player_to_go_first' do
-    it 'sets the player with the colour white as the current player' do
-      expect(game.current_player).to eql player1
-    end
-  end
-  
-  describe '#valid_input?' do
-    context 'with a valid input' do
-      it 'returns true' do
-        expect(game.valid_input?(["a1", "b2"])).to be true
-      end
-    end
-    
-    context 'with an array element of length less than two' do
-      it 'returns false' do
-        expect(game.valid_input?(["a1", "b"])).to be false
-      end
-    end
-    
-    context 'with an array element of length more than two' do
-      it 'returns false' do
-        expect(game.valid_input?(["a12", "b2"])).to be false
-      end
-    end
-    
-    context 'with an array element of incorrect characters' do
-      it 'returns false' do
-        expect(game.valid_input?(["a1", "b9"])).to be false
-      end
-    end
-    
-    context 'with an array element of non-characters' do
-      it 'returns false' do
-        expect(game.valid_input?(["a1", "b?"])).to be false
-      end
-    end
-  end
-  
-  describe '#split_player_input' do
-    
-    let(:input) { "A1 to B2" }
-    
-    it 'converts an input into an array' do
-      expect(game.split_player_input(input)).to be_kind_of Array
-    end
-    
-    it 'returns an array of two elements' do
-      expect(game.split_player_input(input)).to eql ["a1", "b2"]
-    end
-    
-    it 'each element of the returned array is two characters long' do
-      expect(game.split_player_input(input)[0].length).to eql 2
-    end
-  end
-  
   describe '#change_player' do
-    context 'on the first turn' do
-      it 'player1 should be the current player' do
+    context 'before the player is changed' do
+      it 'The player who is white should go first' do
         expect(game.current_player).to eql player1
       end
     end
-
+    
     context 'on the second turn' do
-      it 'player2 should be the current player' do
+      it 'The player who is black should go second' do
         game.change_player
         expect(game.current_player).to eql player2
       end
@@ -85,14 +30,17 @@ describe Game do
     end
   end
   
-  describe '#legal_move?' do
-    context 'when moving a piece' do
-      context 'if it leaves the players King in check' do
-        it 'should raise an IllegalMoveException' do
-          
-        end
+  describe '#move' do
+    context 'when the input is valid' do
+      before(:each) do
+        allow(game).to receive(:gets).and_return('a2 to a3')
+      end
+    
+      it 'should not raise any errors' do
+        expect { game.move }.to_not raise_error
       end
     end
+      
   end
-  
+
 end

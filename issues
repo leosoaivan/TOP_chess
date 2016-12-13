@@ -12,7 +12,7 @@ Then move the piece to the destination square
 Moving a piece:
 - Game asks for player input
 - Game validates, parses, and splits input in a set of Coordinates.
-- Game ensures the Coordinates are valid:
+- Game ensures the Coordinates are legal:
     * Game ensures the start coordinate contains one of player's pieces
     * Game ensures the end coordinate DOES NOT contain player's pieces
     * Game ensures the end coordinate is within player's piece's moveset

@@ -1,4 +1,5 @@
 class Game
+  InvalidInput = Class.new(StandardError)
   attr_accessor :current_move, :board
   attr_reader :current_player, :player1, :player2
   
@@ -6,19 +7,33 @@ class Game
     @board = board
     @player1 = player1
     @player2 = player2
-    #@current_player = set_player_to_go_first
-    @current_move = nil
+    @current_player = set_player_to_go_first
+    @current_move = {start: nil, end: nil}
   end
   
-  def valid_input?(input)
-    input.all? do |elem|
-      /([a-h][1-8])/ =~ elem \
-                        && elem.length == 2
+  def move
+    begin
+      current_move[:start], current_move[:end] = get_move
+      validate_input(current_move)
+        #check for legal moves
+    rescue Game::InvalidInput => error
+      yield error.message if block_given?
+      retry
     end
   end
+  
+  def legal_move?
+    # Game ensures the start coordinate contains one of player's pieces
+    start = CoordinateConverter.convert_input(@current_move[0])
+    if board.square(*start).nil?
+      #raise an error
+    elsif board.square(*start)
+    end
 
-  def split_player_input(input)
-    self.current_move = parse_input(input).downcase.split("to")
+    #* Game ensures the end coordinate DOES NOT contain player's pieces
+    #* Game ensures the end coordinate is within player's piece's moveset
+    #* Game ensures the path is not blocked
+    #* Game ensures that player is not left in check
   end
 
   def change_player
@@ -32,6 +47,13 @@ class Game
   end
 
   private
+  
+    def valid_input?(input)
+      input.all? do |key, value|
+        /([a-h][1-8])/ =~ value \
+                          && value.length == 2
+      end
+    end
 
     def set_player_to_go_first
       @player1.colour == :white ? @player1 : @player2
@@ -39,6 +61,19 @@ class Game
     
     def parse_input(input)
       input.gsub(/\s+/, "")
+    end
+    
+    def split_player_input(input)
+      parse_input(input).downcase.split("to")
+    end
+    
+    def validate_input(input)
+      raise(InvalidInput, "Your input is not valid") unless valid_input?(input)
+    end
+    
+    def get_move
+      puts "Enter your move motherfucker. Example (a1 to b2)"
+      split_player_input(gets.chomp)
     end
     
     def piece_hash
