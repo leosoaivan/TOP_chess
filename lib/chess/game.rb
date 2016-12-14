@@ -1,5 +1,6 @@
 class Game
-  InvalidInput = Class.new(StandardError)
+  InputError = Class.new(StandardError)
+  MoveError = Class.new(StandardError)
   attr_accessor :current_move, :board
   attr_reader :current_player, :player1, :player2
   
@@ -17,7 +18,10 @@ class Game
       validate_input(current_move)
       convert_input
       #check for legal moves
-    rescue InvalidInput => error
+    rescue InputError => error
+      yield error.message if block_given?
+      retry
+    rescue MoveError => error
       yield error.message if block_given?
       retry
     end
@@ -37,7 +41,7 @@ class Game
   end
     
   def validate_input(input)
-    raise(InvalidInput, "Your input is not valid") unless valid_input?(input)
+    raise InputError, "Your input is not valid" unless valid_input?(input)
   end
   
   def valid_input?(input)
@@ -55,15 +59,21 @@ class Game
   
   def legal_move?
     # Game ensures the start coordinate contains one of player's pieces
-    if board.square(current_move[*:start]).nil?
-      #raise an error
-    elsif board.square(*start)
-    end
-
+    raise MoveError, "The start square does not contain a piece" if empty_square?(current_move[:start])
     #* Game ensures the end coordinate DOES NOT contain player's pieces
+    raise MoveError, "You are trying to move to a square that already contains one of your pieces" if already_occupied?(current_move[:end])
     #* Game ensures the end coordinate is within player's piece's moveset
     #* Game ensures the path is not blocked
     #* Game ensures that player is not left in check
+  end
+  
+  def empty_square?(coordinates)
+    board.square(*coordinates).nil?
+  end
+  
+  def already_occupied?(coordinates)
+    return false if empty_square?(*coordinates)
+    board.square(*coordinates).colour == current_player.colour
   end
 
   def change_player

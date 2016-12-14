@@ -5,6 +5,7 @@ describe Game do
   let(:board) { double 'Board' }
   let(:player1) { double 'Player1', colour: :white }
   let(:player2) { double 'Player2', colour: :black }
+  let(:piece) { double 'Piece', colour: :white }
   
   it { expect(subject).to be_instance_of Game }
   
@@ -85,6 +86,53 @@ describe Game do
       game.convert_input
       expect(game.current_move[:start]).to eql [7,0]
       expect(game.current_move[:end]).to eql [6,1]
+    end
+  end
+  
+  describe '#empty_square?' do
+    context 'When a board square is empty' do
+      it 'returns true' do
+        #game.current_move = {start: "a1", end: "b2"}
+        allow(board).to receive(:square).and_return(nil)
+        expect(game.empty_square?(game.current_move[:start])).to be true
+      end
+    end
+    
+    context 'When a board square is not empty' do
+      it 'returns false' do
+        #game.current_move = {start: "a1", end: "b2"}
+        allow(board).to receive(:square).and_return(piece)
+        expect(game.empty_square?(game.current_move[:start])).to be false
+      end
+    end
+  end
+  
+  describe '#already_occupied?' do
+    before(:each) do
+      game.current_move = {start: "a1", end: "b2"}
+    end
+    
+    context 'when the end coordinate is occupied by a piece of the same colour' do
+      it 'returns true' do
+        allow(board).to receive(:square).and_return(piece)
+        allow(game).to receive(:current_player).and_return(player1)
+        expect(game.already_occupied?(game.current_move[:end])).to be true
+      end
+    end
+    
+    context 'when the end coordinate is empty' do
+      it 'returns false' do
+        allow(board).to receive(:square).and_return(nil)
+        expect(game.already_occupied?(game.current_move[:end])).to be false
+      end
+    end
+    
+    context 'when the end coordinate is occupied by a piece that is not the same colour' do
+      it 'returns false' do
+        allow(board).to receive(:square).and_return(nil)
+        allow(game).to receive(:current_player).and_return(player2)
+        expect(game.already_occupied?(game.current_move[:end])).to be false
+      end
     end
   end
 
