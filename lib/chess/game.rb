@@ -15,17 +15,47 @@ class Game
     begin
       current_move[:start], current_move[:end] = get_move
       validate_input(current_move)
-        #check for legal moves
-    rescue Game::InvalidInput => error
+      convert_input
+      #check for legal moves
+    rescue InvalidInput => error
       yield error.message if block_given?
       retry
     end
   end
   
+  def get_move
+    puts "Enter your move motherfucker. Example (a1 to b2)"
+    split_player_input(gets.chomp)
+  end
+  
+  def parse_input(input)
+    input.gsub(/\s+/, "")
+  end
+    
+  def split_player_input(input)
+    parse_input(input).downcase.split("to")
+  end
+    
+  def validate_input(input)
+    raise(InvalidInput, "Your input is not valid") unless valid_input?(input)
+  end
+  
+  def valid_input?(input)
+    input.all? do |key, value|
+      /([a-h][1-8])/ =~ value \
+                    && value.length == 2
+    end
+  end
+  
+  def convert_input
+    current_move.each_pair do |key, value|
+      current_move[key] = CoordinateConverter.convert_input(value)
+    end
+  end
+  
   def legal_move?
     # Game ensures the start coordinate contains one of player's pieces
-    start = CoordinateConverter.convert_input(@current_move[0])
-    if board.square(*start).nil?
+    if board.square(current_move[*:start]).nil?
       #raise an error
     elsif board.square(*start)
     end
@@ -47,33 +77,9 @@ class Game
   end
 
   private
-  
-    def valid_input?(input)
-      input.all? do |key, value|
-        /([a-h][1-8])/ =~ value \
-                          && value.length == 2
-      end
-    end
 
     def set_player_to_go_first
       @player1.colour == :white ? @player1 : @player2
-    end
-    
-    def parse_input(input)
-      input.gsub(/\s+/, "")
-    end
-    
-    def split_player_input(input)
-      parse_input(input).downcase.split("to")
-    end
-    
-    def validate_input(input)
-      raise(InvalidInput, "Your input is not valid") unless valid_input?(input)
-    end
-    
-    def get_move
-      puts "Enter your move motherfucker. Example (a1 to b2)"
-      split_player_input(gets.chomp)
     end
     
     def piece_hash

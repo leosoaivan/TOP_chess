@@ -30,17 +30,62 @@ describe Game do
     end
   end
   
-  describe '#move' do
-    context 'when the input is valid' do
-      before(:each) do
-        allow(game).to receive(:gets).and_return('a2 to a3')
-      end
-    
-      it 'should not raise any errors' do
-        expect { game.move }.to_not raise_error
+  describe '#valid_input?' do
+    context 'with a valid input' do
+      it 'returns true' do
+        expect(game.valid_input?({start: "a1", end: "b2"})).to be true
       end
     end
-      
+    
+    context 'with an array element of length less than two' do
+      it 'returns false' do
+        expect(game.valid_input?({start: "a1", end: "b"})).to be false
+      end
+    end
+    
+    context 'with an array element of length more than two' do
+      it 'returns false' do
+        expect(game.valid_input?({start: "a12", end: "b2"})).to be false
+      end
+    end
+    
+    context 'with an array element of incorrect characters' do
+      it 'returns false' do
+        expect(game.valid_input?({start: "a1", end: "b9"})).to be false
+      end
+    end
+    
+    context 'with an array element of non-characters' do
+      it 'returns false' do
+        expect(game.valid_input?({start: "a1", end: "b?"})).to be false
+      end
+    end
+  end
+  
+  describe '#split_player_input' do
+    
+    let(:input) { "A1 to B2" }
+    
+    it 'converts an input into an array' do
+      expect(game.split_player_input(input)).to be_kind_of Array
+    end
+    
+    it 'returns an array of two elements' do
+      expect(game.split_player_input(input)).to eql ["a1", "b2"]
+    end
+    
+    it 'each element of the returned array is two characters long' do
+      expect(game.split_player_input(input)[0].length).to eql 2
+    end
+  end
+  
+  describe '#convert_input' do
+    it 'converts the input into an array of board co-ordinates' do
+      game.current_move = {start: "a1", end: "b2"}
+      game.convert_input
+      expect(game.current_move[:start]).to eql [7,0]
+      expect(game.current_move[:end]).to eql [6,1]
+    end
   end
 
 end

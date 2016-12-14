@@ -13,10 +13,9 @@ class CoordinateConverter
   }
   
   def self.convert_input(ary_input)
-    ary_input.map! do |elem|
-      elem[0] = BOARD_MAP["#{elem[0]}"]
-      elem[1] = (elem[1].to_i - 8).abs
-      [elem[1], elem[0]]
-    end
+    ary_input = ary_input.split("")
+    ary_input[0] = BOARD_MAP["#{ary_input[0]}"]
+    ary_input[1] = (ary_input[1].to_i - 8).abs
+    [ary_input[1], ary_input[0]]
   end
 end
