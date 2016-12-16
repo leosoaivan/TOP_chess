@@ -59,11 +59,15 @@ class Game
   
   def legal_move?
     # Game ensures the start coordinate contains one of player's pieces
-    raise MoveError, "The start square does not contain a piece" if empty_square?(current_move[:start])
+    raise MoveError, "The start square does not contain a movable piece" if empty_square?(current_move[:start]) && !already_occupied?(current_move[:start])
+    
     #* Game ensures the end coordinate DOES NOT contain player's pieces
     raise MoveError, "You are trying to move to a square that already contains one of your pieces" if already_occupied?(current_move[:end])
+    
     #* Game ensures the end coordinate is within player's piece's moveset
+    
     #* Game ensures the path is not blocked
+    
     #* Game ensures that player is not left in check
   end
   
@@ -75,6 +79,12 @@ class Game
     return false if empty_square?(*coordinates)
     board.square(*coordinates).colour == current_player.colour
   end
+  
+  def within_moveset?(coordinates)
+    diff = coordinates[:start].zip(coordinates[:end]).map {|x,y| x - y }
+    board.square(*coordinates).class.move_set.include?(diff)
+  end
+    
 
   def change_player
     @current_player = @current_player == @player1 ? @player2 : @player1
