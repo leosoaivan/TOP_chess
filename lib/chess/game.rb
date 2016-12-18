@@ -80,11 +80,9 @@ class Game
     board.square(*coordinates).colour == current_player.colour
   end
   
-  def within_moveset?(coordinates)
-    diff = coordinates[:start].zip(coordinates[:end]).map {|x,y| x - y }
-    board.square(*coordinates).class.move_set.include?(diff)
-  end
+  def within_moveset?
     
+  end
 
   def change_player
     @current_player = @current_player == @player1 ? @player2 : @player1

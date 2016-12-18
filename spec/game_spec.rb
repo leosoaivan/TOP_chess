@@ -135,5 +135,16 @@ describe Game do
       end
     end
   end
+  
+  describe '#within_moveset?' do
+    context 'when the move is within the pieces moveset' do
+      it 'returns true' do
+        allow(game).to receive(:current_move).and_return({start: [3,4], end: [5,2]})
+        allow(game).to receive(:get_piece).and_return(piece)
+        allow(piece).to receive(:move_set).and_return([[-1, -1], [-1, 1], [1, 1], [1, -1]])
+        expect(game.within_moveset?).to be true
+      end
+    end
+  end
 
 end

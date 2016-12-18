@@ -1,5 +1,5 @@
 class Knight < Piece
-  attr_reader :symbol
+  attr_reader :symbol, :move_set
   
   def initialize(colour)
     super(colour)
