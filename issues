@@ -23,3 +23,20 @@ Moving a piece:
 - Game displays the board
 - Game repeats
 - Game profits
+
+Checking opponent AFTER a valid move, including a capture:
+- MoveValidator checks for presence of King in MoveValidator.moves
+    * If King is present
+        * A @checked variable returns true
+    * If not, MoveValidtor checks for the presence of King beyond any blocking pieces
+        * If King is within player's piece's sights
+            * @checking << player's piece
+        * If there is > 1 piece between player's piece and opponent's King:
+            * End turn
+        * If there is only 1 piece blocking (e.g., B. Bishop)
+            * Opponent's king is marked at "imminent danger"
+            * Piece is prevented from moving on next turn, unless it removes check
+- MoveValidator iterates through @checking at end of every turn to see if:
+    * Opponent's King is still within sights of player's pieces
+        * If not, remove that piece from @checking
+    * Opponent has moved blocking pieces.

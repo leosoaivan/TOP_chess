@@ -1,4 +1,7 @@
+require_relative 'move_array'
+
 class Piece
+  include MoveArray
   attr_reader :colour, :symbol, :move_set
   
   def initialize(colour)

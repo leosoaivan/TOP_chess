@@ -18,7 +18,7 @@ class Board
   end
   
   def square(row, column)
-    data[row][column]
+    data.fetch(row).fetch(column)
   end
   
   def move_piece(start_position, end_position)
@@ -28,6 +28,16 @@ class Board
   
   def add_piece(piece, position)
     data[position[0]][position[1]] = piece
+  end
+  
+  def get_coordinate(piece, colour)
+    data.each_with_index do |row, row_index|
+      row.each_with_index do |square, square_index|
+        next if square.nil?
+        return [row_index, square_index] if square.class == piece \
+                            && square.colour == colour
+      end
+    end
   end
   
   def to_s

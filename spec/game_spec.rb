@@ -146,5 +146,44 @@ describe Game do
       end
     end
   end
+  
+  describe '#row_coordinates' do
+    it 'returns an array of row coordinates for the given start point' do
+      allow(board).to receive(:length).and_return(8)
+      return_array = [[3,0],[3,1],[3,2],[3,3],[3,4],[3,5],[3,6],[3,7]]
+      expect(game.row_coordinates([3,5])).to eql(return_array)
+    end
+  end
+  
+  describe '#column_coordinates' do
+    it 'returns an array of column coordinates for the given start point' do
+      allow(board).to receive(:length).and_return(8)
+      return_array = [[0,3],[1,3],[2,3],[3,3],[4,3],[5,3],[6,3],[7,3]]
+      expect(game.column_coordinates([3,5])).to eql(return_array)
+    end
+  end
+  
+  describe '#left_to_right_diagonal_coordinates' do
+    it 'returns an array of left to right diagonal coordinates for the given start point' do
+      allow(board).to receive(:length).and_return(8)
+      return_array = [[0, 2], [1, 3], [2, 4], [3, 5], [4, 6], [5, 7]]
+      expect(game.left_to_right_diagonal_coordinates([3,5])).to eql(return_array)
+    end
+  end
+  
+  describe '#right_to_left_diagonal_coordinates' do
+    it 'returns an array of right to left diagonal coordinates for the given start point' do
+      allow(board).to receive(:length).and_return(8)
+      return_array = [[1, 7], [2, 6], [3, 5], [4, 4], [5, 3], [6, 2], [7, 1]]
+      expect(game.right_to_left_diagonal_coordinates([3,5])).to eql(return_array)
+    end
+  end
+  
+  describe '#knight_coordinartes' do
+    it 'returns an array of coordiantes the Knight can move to for the given start point' do
+      return_array = [[6, 4], [6, 0], [5, 1], [5, 3]]
+      expect(game.knight_coordinartes([7,2])).to eql(return_array)
+    end
+  end
 
 end

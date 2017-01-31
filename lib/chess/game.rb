@@ -17,7 +17,8 @@ class Game
       current_move[:start], current_move[:end] = get_move
       validate_input(current_move)
       convert_input
-      #check for legal moves
+      legal_move?
+      board.move_piece(current_move[:start], current_move[:end])
     rescue InputError => error
       yield error.message if block_given?
       retry
@@ -58,17 +59,27 @@ class Game
   end
   
   def legal_move?
-    # Game ensures the start coordinate contains one of player's pieces
-    raise MoveError, "The start square does not contain a movable piece" if empty_square?(current_move[:start]) && !already_occupied?(current_move[:start])
+    # Game ensures the start coordinate is not empty
+    raise MoveError, "Your start co-ordinate is empty" if empty_square?(current_move[:start])
+    
+    # Ensures the start coordinate contains a piece the same colour as the player
+    raise MoveError, "Your start co-ordinate contains a piece that isn't yours" unless already_occupied?(current_move[:start])
     
     #* Game ensures the end coordinate DOES NOT contain player's pieces
-    raise MoveError, "You are trying to move to a square that already contains one of your pieces" if already_occupied?(current_move[:end])
+    unless empty_square?(current_move[:end])
+      raise MoveError, "You are trying to move to a square that already contains one of your pieces" if already_occupied?(current_move[:end])
+    end
     
     #* Game ensures the end coordinate is within player's piece's moveset
-    
     #* Game ensures the path is not blocked
+    raise MoveError, "You cannot move to that square" unless board.square(*current_move[:start]).valid_move?(current_move[:start], current_move[:end], board)
     
     #* Game ensures that player is not left in check
+    temp_board = Marshal.load(Marshal.dump(board))
+    temp_board.move_piece(current_move[:start], current_move[:end])
+    king = board.square(*board.get_coordinate(King, current_player.colour))
+    raise MoveError, "That move leaves your King in check" if king.in_check?(
+              board.get_coordinate(King, current_player.colour) , temp_board)
   end
   
   def empty_square?(coordinates)
@@ -76,12 +87,7 @@ class Game
   end
   
   def already_occupied?(coordinates)
-    return false if empty_square?(*coordinates)
     board.square(*coordinates).colour == current_player.colour
-  end
-  
-  def within_moveset?
-    
   end
 
   def change_player
