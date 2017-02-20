@@ -1,0 +1,32 @@
+Classes:
+Game
+Board
+Players
+Pieces
+CoordinateConverter
+
+Responsibilities
+Game
+  - Getting player input
+  
+Board
+  - Storing a game board array
+  - Returning the co-ordinate position for any piece
+  
+
+Player
+
+Piece
+  - Holding confirmation of whether it has moved
+
+CoordinateConverter
+  - Converting player input to board coordinates
+  
+-----------------------------------------------------
+  
+Making a move
+  - The input must be valid
+  - If the player is in check the move must ensure the resulting move gets them out of check
+  - The selected start square must contain a piece that is the current players
+  - The selected end square must either be empty or contain an opposition piece that isn't the King
+  - The move can't leave your own King in check

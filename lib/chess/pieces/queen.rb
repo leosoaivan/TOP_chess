@@ -1,15 +1,20 @@
 class Queen < Piece
-  attr_reader :symbol, :move_set
   
   def initialize(colour)
     super(colour)
     @symbol = set_symbol
+    @move_set = [[-1, -1], [-1, 1], [1, 1], [1, -1],[-1, 0], [0, 1], [1, 0], [0, -1]]
   end
   
-  def valid_move?(start, finish, board)
-    get_directions(start).any? { |coordinates| coordinates.include?(finish) } \
-                && path_not_blocked?(start, finish, board)
+  def generate_moves
+    clear_moves
+    create_moves
   end
+  
+  def valid_move?(coordinate)
+    self.moves.include?(coordinate)
+  end
+
 
   private
   
@@ -17,32 +22,19 @@ class Queen < Piece
       self.colour == :white ? "\u2655" : "\u265B"
     end
     
-    def get_directions(start)
-      [left_to_right_diagonal_coordinates(start), right_to_left_diagonal_coordinates(start),
-              row_coordinates(start), column_coordinates(start)]
+    def clear_moves
+      @moves = nil
     end
     
-    def path_not_blocked?(start, finish, board)
-      convert_coordinartes(get_array(start, finish), board).compact.length == 1
-    end
-    
-    def convert_coordinartes(array, board)
-      array.map {|piece| board.square(*piece) }
-    end
-    
-    def get_array(start, finish)
-      find_array(start, finish) do |array|
-        if array.index(start) < array.index(finish)
-          return array[array.index(start)...array.index(finish)]
-        else
-          return array.reverse![array.index(start)...array.index(finish)]
-        end
+    def valid_node?(node, board)
+      return false if invalid_node?(node)
+      unless board.square(*node).nil?
+        return false unless different_colour_piece?(node, board)
       end
+      true
     end
     
-    def find_array(start, finish)
-      get_directions(start).each do |array|
-        yield array if array.include?(finish)
-      end
+    def invalid_node?(node)
+      node.any? { |num| num < 0 || num > 7 }
     end
 end
