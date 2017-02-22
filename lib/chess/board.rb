@@ -1,8 +1,11 @@
 class Board
   attr_accessor :data
+  attr_reader :black_pieces, :white_pieces
   
   def initialize
     @data = Array.new(8) { Array.new(8) }
+    @black_pieces = []
+    @white_pieces = []
   end
   
   def length
@@ -30,12 +33,19 @@ class Board
     data[position[0]][position[1]] = piece
   end
   
-  def get_coordinate(piece, colour)
+  def get_coordinates(piece)
     data.each_with_index do |row, row_index|
       row.each_with_index do |square, square_index|
+        return [row_index, square_index] if square == piece
+      end
+    end
+  end
+  
+  def populate_piece_arrays
+    data.each do |row|
+      row.each do |square|
         next if square.nil?
-        return [row_index, square_index] if square.class == piece \
-                            && square.colour == colour
+        square.colour == :white ? @white_pieces << square : @black_pieces << square
       end
     end
   end
@@ -61,14 +71,14 @@ class Board
   private
   
     def get_piece(position)
-      square(position[0], position[1])
+      self.square(*position)
     end
   
     def place_piece(piece, position)
-      data[position[0]][position[1]] = piece
+      self.data[position[0]][position[1]] = piece
     end
     
     def set_start_square_to_nil(position)
-      data[position[0]][position[1]] = nil
+      self.data[position[0]][position[1]] = nil
     end
 end

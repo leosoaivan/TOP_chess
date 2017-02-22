@@ -72,7 +72,7 @@ class Game
     
     #* Game ensures the end coordinate is within player's piece's moveset
     #* Game ensures the path is not blocked
-    raise MoveError, "You cannot move to that square" unless board.square(*current_move[:start]).valid_move?(current_move[:start], current_move[:end], board)
+    raise MoveError, "You cannot move to that square" unless board.square(*current_move[:start]).valid_move?(current_move[:end])
     
     #* Game ensures that player is not left in check
     temp_board = Marshal.load(Marshal.dump(board))
