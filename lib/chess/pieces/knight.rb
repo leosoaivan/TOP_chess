@@ -1,3 +1,5 @@
+require_relative 'piece'
+
 class Knight < Piece
   attr_reader :symbol, :move_set
   
@@ -14,6 +16,7 @@ class Knight < Piece
     end
     
     def add_coordinates(node, cord, start, board)
-      self.moves << update_node(node, cord) if valid_node?(node, board)
+      node = update_node(node, cord)
+      self.moves << node if valid_node?(node, board)
     end
 end

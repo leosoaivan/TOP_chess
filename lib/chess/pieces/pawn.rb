@@ -1,3 +1,5 @@
+require_relative 'piece'
+
 class Pawn < Piece
   
   def initialize(colour)
@@ -17,20 +19,20 @@ class Pawn < Piece
     end
     
     def add_coordinates(node, cord, start, board)
-      pawn_straight_moves(node, cord, board) if same_column(node, start)
-      pawn_diagonal_moves(node, cord, board) unless same_column(node, start)
+      pawn_straight_moves(node, cord, board) if same_column(update_node(node, cord), start)
+      pawn_diagonal_moves(node, cord, board) unless same_column(update_node(node, cord), start)
     end
     
     def pawn_straight_moves(node, cord, board)
       2.times do
         node = update_node(node, cord)
-        self.moves << node if pawn_straight_move_valid?(node, board)
+        moves << node if pawn_straight_move_valid?(node, board)
         return if self.moved
       end
     end
     
     def pawn_diagonal_moves(node, cord, board)
-      self.moves << update_node(node, cord) if pawn_diagonal_move_valid?(node, board)
+      moves << update_node(node, cord) if pawn_diagonal_move_valid?(update_node(node, cord), board)
     end
     
     def same_column(node, start)

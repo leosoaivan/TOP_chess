@@ -1,3 +1,5 @@
+require_relative 'piece'
+
 class King < Piece
   
   def initialize(colour)
@@ -6,7 +8,7 @@ class King < Piece
     @move_set = [[-1, -1], [-1, 1], [1, 1], [1, -1], [-1, 0], [0, 1], [1, 0], [0, -1]]
   end
   
-  def in_check?(coordinate, board)
+  def in_check?(board)
     king_coordinates = board.get_coordinates(self)
     opposite_colour_piece_array(board).each do |piece|
       return true if piece.moves.include?(king_coordinates)
@@ -21,19 +23,19 @@ class King < Piece
     end
     
     def add_coordinates(node, cord, start, board)
-      self.moves << update_node(node, cord) if valid_node?(node, board)
+      self.moves << update_node(node, cord) if valid_node?(update_node(node, cord), board)
     end
     
     def valid_node?(node, board)
-      return false if invalid_node?(node) || move_in_check?(node, board) || same_colour(node, board)
+      return false if invalid_node?(node) || move_in_check?(node, board) || same_colour?(node, board)
       true
     end
     
     def move_in_check?(node, board)
       opposite_colour_piece_array(board).each do |piece|
-        return false if piece.moves.include?(node)
+        return true if piece.moves.include?(node)
       end
-      true
+      false
     end
     
     def opposite_colour_piece_array(board)
