@@ -60,28 +60,6 @@ class Board
     end
   end
 
-  # def to_s
-  #   self.BoardPrint.to_s
-  # end 
-  
-  # def to_s
-  #   puts "    a   b   c   d   e   f   g   h "
-  #   puts "  +----+----+----+----+----+----+----+----+"
-  #   8.times do |x|
-  #     print "#{ (x - 8).abs } "
-  #     @data[x].each do |elem|
-  #       if elem
-  #         print "| #{elem} "
-  #       else
-  #         print "|   "
-  #       end
-  #     end
-  #     puts " #{ (x - 8).abs } \n"
-  #     puts "  +---+---+---+---+---+---+---+---+"
-  #   end
-  #   puts "    a   b   c   d   e   f   g   h \n\n"
-  # end
-  
   private
   
     def get_piece(position)
